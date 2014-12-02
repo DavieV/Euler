@@ -1,0 +1,5 @@
+Problems that have been skipped
+
+- problem3.cpp /* Find the largest prime factor of some giant number */
+- problem11.cpp
+- problem12.cpp
