@@ -6,6 +6,7 @@ int sum(int n);
 
 int main() {
     std::cout << sum(1000) << std::endl;
+    return 0;
 }
 
 int sum(int n) {
