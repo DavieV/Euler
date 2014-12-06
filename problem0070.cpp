@@ -46,6 +46,8 @@ int main() {
     }
 
     std::cout << n << " " << euler_sieve[n] << std::endl;
+    delete[] euler_sieve;
+    delete[] prime_sieve;
 
     return 0;
 }
