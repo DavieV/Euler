@@ -41,6 +41,7 @@ int main() {
     fill_table(table);
     std::cout << max_horiz(table) << std::endl;
     std::cout << max_vert(table) << std::endl;
+    delete[] table;
     return 0;
 }
 
@@ -61,6 +62,7 @@ void fill_table(int64_t **table) {
             table[i][j] = fib[(2000 * i) + j];
         }
     }
+    delete[] fib;
 }
 
 int64_t max_vert(int64_t **table) {
