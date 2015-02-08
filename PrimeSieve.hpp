@@ -4,67 +4,95 @@ Another helper class spawned by project euler.
 There are a ton of questions that deal with prime numbers, and I found myself re-writing the code for
 generate a sieve of eratosthenes, so I decided to make a class for it.
 Important things to note:
-- The primeAfter function will return 0 if it doesn't find another prime within the range
+- The prime_after function will return 0 if it doesn't find another prime within the range
 - The sieve will be generated from numbers 1...size_, not primes 1...size_
-- The class DOES have a destructor, so if you are passing it around to functions PASS BY REFERENCE.  2 reasons:
-    - copying is expensive
-    - you shouldn't be modifying it
-    - the destructor triggering prematurely may cause undefined behaviour
+- The class is templated for the size you require.  If you need more than 2 billion primes dont use int
+- The copy constructor has been omitted because its expensive, I would suggest passing by reference.  This class
+cannot be modified anyways
 */
 
 #ifndef QP_PRIME_SIEVE_H__
 #define QP_PRIME_SIEVE_H__
 
+#include <vector>
+
+namespace pe {  // project euler namespace
+
+template <typename size_type = int>
 class PrimeSieve {
     private:
-        int size_;
+        size_type size_;
         bool* primes_;
 
     public:
-        PrimeSieve(int);
+        PrimeSieve(size_type);
         ~PrimeSieve() { delete[] primes_; }
+        PrimeSieve operator=(PrimeSieve) = delete;
+        static std::vector<size_type> make_vector(size_type s) {
+            PrimeSieve<size_type> p(s);
+            return p.to_vector();
+        }
 
-        int primeAfter(int);
-        int nthPrime(int);
-        bool isPrime(int n){ return primes_[n]; }
-        int size() { return size_; }
+        size_type next_prime(size_type);
+        size_type nth_prime(const size_type);
+        bool is_prime(const size_type n) { return primes_[n]; }
+        size_type size(){ return size_; }
 
-        bool operator[] (int i) { return primes_[i]; }
+        std::vector<size_type> to_vector();
+
+        bool operator [] (const size_type i) { return primes_[i]; }
 
 
     private:
-        void elimMultiples(int const&);
+        void elim_mult(const size_type);
+
+
 };
 
-PrimeSieve::PrimeSieve(int size) {
-    size_ = size;
+template <typename size_type>
+PrimeSieve<size_type>::PrimeSieve(const size_type size){
+    size_ = size + 1;
     primes_ = new bool[size_];
-    for (int i = 0; i < size_; i++)
+    for(size_type i = 0; i < size_; i++)
         primes_[i] = true;
-    primes_[0] = false;
-    primes_[1] = false;
-    int prime = 2;
+    primes_[0] = false; primes_[1] = false;
+    size_type prime = 2;
 
-    for (int i = 0; i*i < size_; i++) {
-        elimMultiples(prime);
-        prime = primeAfter(prime);
+    for(size_type i = 0; i * i < size_; i++){
+        elim_mult(prime);
+        prime = next_prime(prime);
     }
+
 }
 
-void PrimeSieve::elimMultiples(int const& n) {
-    for (int i = n*n; i < size_; i+=n) primes_[i] = false;
+template <typename size_type>
+void PrimeSieve<size_type>::elim_mult(const size_type n){
+    for(size_type i = n*n; i < size_; i+=n) primes_[i] = false;
 }
 
-int PrimeSieve::primeAfter(int n) {
-    while (n < size_ && !primes_[++n]);
-    if ( n >= size_) return 0;
+template <typename size_type>
+size_type PrimeSieve<size_type>::next_prime(size_type n){
+    while(n < size_ && !primes_[++n]);
+    if( n >= size_) return 0;
     return n;
 }
 
-int PrimeSieve::nthPrime(int n) {
-    int p = 0;
-    for (int i = 0; i < n; i++) p = primeAfter(p);
+template <typename size_type>
+size_type PrimeSieve<size_type>::nth_prime(const size_type n){
+    size_type p = 0;
+    for(size_type i = 0; i < n; i++) p = next_prime(p);
     return p;
+}
+
+template <typename size_type>
+std::vector<size_type> PrimeSieve<size_type>::to_vector(){
+    std::vector<size_type> v;
+    for(size_type i = 0; i < size(); i++){
+        if(primes_[i]) v.push_back(i);
+    }
+    return v;
+}
+
 }
 
 #endif

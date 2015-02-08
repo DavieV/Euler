@@ -40,7 +40,7 @@ std::string sort_digits(long long n) {
 }
 
 std::string get_key(int n) {
-        std::unordered_map<std::string, int> cubes;
+    std::unordered_map<std::string, int> cubes;
     std::string key;
     long long cube;
     for (int i = 1; i < 10000; ++i) {

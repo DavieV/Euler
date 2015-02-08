@@ -9,7 +9,7 @@ int main() {
     std::set<int64_t> nums;
     for (int i = 1; i < LIM; ++i) {
         cur = (i * i);
-        for (int j = i+1; cur < LIM * LIM; ++j) {
+        for (int j = i+1; cur < 100000000; ++j) {
             cur += (j * j);
             if (is_palindrome(cur) && cur < LIM * LIM) {
                 nums.insert(cur);

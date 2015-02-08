@@ -4,19 +4,17 @@
 
 #include <iostream>
 
-using namespace std;
+bool isValid(int n);
 
-bool isValid(int);
-
-int main(void){
-	int i;
-	for(i = 2520; !isValid(i); i++);
-	cout << i << endl;
+int main(void) {
+    int i;
+    for (i = 2520; !isValid(i); i++);
+    std::cout << i << std::endl;
 }
 
-bool isValid(int n){
-	for(int i = 1; i <= 20; i++){
-		if(n % i != 0) return false;
-	}
-	return true;
+bool isValid(int n) {
+    for (int i = 1; i <= 20; i++) {
+        if (n % i != 0) return false;
+    }
+    return true;
 }

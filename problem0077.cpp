@@ -41,7 +41,7 @@ int find_sum(std::vector<int> primes) {
     for (int i = 0; i < primes.size(); ++i) {
         for (int j = 0; j < MAX; ++j) {
             if (j - primes[i] >= 0)
-                sums[j] += sums[j-primes[i]];
+                sums[j] = sums[j-primes[i]];
         }
     }
 

@@ -15,4 +15,3 @@ int sum(int n) {
     int fifteens = (n-1) / 15 * ((n-1) / 15 + 1) / 2 * 15;
     return threes + fives - fifteens;
 }
-
